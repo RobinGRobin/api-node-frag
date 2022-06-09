@@ -40,9 +40,10 @@ export const employeeDataFiltered = async (req, res) => {
                 FROM NorthAmerica.dbo.DistributionData
                 WHERE GroupName = '${_group}' `;
     const query_a = await pool.request().query(a);  // recibe la ubicacion de los datos del grupo obtenido  
-    const datosCompletos = {};  
+    //console.log(query_a.recordset[1])
+    const datosCompletos = [];  
     for (let i = 0; i < query_a.rowsAffected; i++){
-        if(query_a.recordset[i].DatabaseName == 'North America'){
+        if(query_a.recordset[i].DatabaseName == 'NorthAmerica'){
             const b = `   SELECT E.BusinessEntityID, E.JobTitle, P.FirstName, P.LastName 
                                 FROM NorthAmerica.HumanResources.Employee AS E
                                 INNER JOIN (	SELECT * 
@@ -58,13 +59,15 @@ export const employeeDataFiltered = async (req, res) => {
                                                                 ON BEA.AddressID = SQL1.AddressID
                                                                 WHERE SQL1.TerritoryID = ${query_a.recordset[i].TerritoryID}) `
             const query_b = await pool.request().query(b);
-            datosCompletos= json.push({
-                BusinessEntityID: query_b.recordset[0].BusinessEntityID,
-                JobTitle: query_b.recordset[0].JobTitle,
-                FirstName: query_b.recordset[0].FirstName,
-                LastName: query_b.recordset[0].LastName
-            })
-            //console.log(query_b)
+            // recorre cada dato encontrado por TerritoryID y lo almacena
+            for(let j = 0; j < query_b.recordset.length; j++){
+                datosCompletos.push({
+                    BusinessEntityID: query_b.recordset[j].BusinessEntityID,
+                    JobTitle: query_b.recordset[j].JobTitle,
+                    FirstName: query_b.recordset[j].FirstName,
+                    LastName: query_b.recordset[j].LastName
+                })
+            }
         } else if (query_a.recordset[i].DatabaseName == 'EuroPacific'){
             const c = ` SELECT * FROM OPENQUERY(SREMOTO, '	SELECT E.BusinessEntityID, E.JobTitle, P.FirstName, P.LastName 
                                                                     FROM EuroPacific.HumanResources.Employee AS E
@@ -81,16 +84,16 @@ export const employeeDataFiltered = async (req, res) => {
                                                                                                     ON BEA.AddressID = SQL1.AddressID
                                                                                                     WHERE SQL1.TerritoryID = ${query_a.recordset[i].TerritoryID})') `
             const query_c = await pool.request().query(c);
-            //console.log(query_c)
-            datosCompletos= json.push({
-                BusinessEntityID: query_c.recordset[0].BusinessEntityID,
-                JobTitle: query_c.recordset[0].JobTitle,
-                FirstName: query_c.recordset[0].FirstName,
-                LastName: query_c.recordset[0].LastName
-            })
+            // recorre cada dato encontrado por TerritoryID y lo almacena
+            for(let j = 0; j < query_c.recordset.length; j++){
+                datosCompletos.push({
+                    BusinessEntityID: query_c.recordset[j].BusinessEntityID,
+                    JobTitle: query_c.recordset[j].JobTitle,
+                    FirstName: query_c.recordset[j].FirstName,
+                    LastName: query_c.recordset[j].LastName
+                })
+            }
         }
     }
-
-    console.log(datosCompletos)
-    res.json('solved')
+    res.render('employees',{results1: datosCompletos})
 }

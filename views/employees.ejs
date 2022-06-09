@@ -103,21 +103,13 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% if(results1 && results2){ %>
+                                    <% if(results1){ %>
                                         <% for(var i=0; i < results1.length; i++){ %>
                                             <tr class="table-active">
                                                 <td><%= results1[i].BusinessEntityID %></td>
                                                 <td><%= results1[i].JobTitle %></td>
                                                 <td> <%= results1[i].FirstName %></td>
                                                 <td><%= results1[i].LastName %></td>
-                                            </tr>
-                                        <% } %>
-                                        <% for(var i=0; i < results2.length; i++){ %>
-                                            <tr class="table-active">
-                                            <td><%= results2[i].BusinessEntityID %></td>
-                                            <td><%= results2[i].JobTitle %></td>
-                                            <td><%= results2[i].FirstName %></td>
-                                            <td><%= results2[i].LastName %></td>
                                             </tr>
                                         <% } %>
                                     <% } %>
