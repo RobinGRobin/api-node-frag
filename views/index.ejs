@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First</title>
+    <link rel="stylesheet" href="https://bootswatch.com/5/lux/bootstrap.min.css">
+</head>
+<body style class>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="#">AdventureWorks2019</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <div class="collapse navbar-collapse" id="navbarColor03">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">Home
+              <span class="visually-hidden">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Separated link</a>
+            </div>
+          </li>
+        </ul>
+        <form class="d-flex">
+          <input class="form-control me-sm-2" type="text" placeholder="Search">
+          <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </div>
+    </div>
+</nav>
+
+    <div class="container">
+      <div class="page-header" id="banner">
+        <div class="row">
+          <div class="col-lg-8 col-md-12 col-sm-6">
+            <h1> 
+              <p></p>
+              <p></p>
+            </h1>
+            
+          </div>
+        </div>
+      </div>
+      <div class="bs-docs section">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="page-header">
+              <h3 id="tables">Productos disponibles</h3>
+            </div>
+            <div class="bs-component">
+              <div class="c-md-7">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col"><h4>Product Id</h4></th>
+                      <th scope="col"><h4>Name</h4></th>
+                      <th scope="col"><h4>ListPrice</h4></th>
+                      <th scope="col"><h4>Action</h4></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% if(results){ %>
+                      <% for(var i=0; i < results.length; i++){ %>
+                        <tr class="table-active">
+                          <td><%= results[i].ProductId %></td>
+                          <td><%= results[i].Name %></td>
+                          <td><%= results[i].ListPrice %></td>
+                          <td><a class="btn btn-danger" href="/product/<%=results[i].ProductId%>">BUY</a></td>
+                        </tr>
+                      <% } %>
+                    <% } %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</body>
+</html>
